@@ -1,2 +1,0 @@
-package user
-func addUser(){}
