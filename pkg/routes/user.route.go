@@ -6,12 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// register all user routes
-var RegisterUserRoutes = func() {
-	router := gin.Default()
-	router.GET("/users", user.FetchAllUsers)
-	router.POST("/users", user.AddUser)
-	router.GET("/users/{userId}", user.FetchUser)
-	router.PUT("/users/{userId}", user.UpdateUser)
-	router.DELETE("/users/{userId}", user.DeleteUser)
+// users routes
+func userRoutes(superRoute *gin.RouterGroup){
+	usersRouter := superRoute.Group("/users")
+	{
+		usersRouter.GET("/", user.FetchAllUsers)
+		usersRouter.POST("/", user.AddUser)
+		usersRouter.DELETE("/:id", user.DeleteUser)
+		usersRouter.PUT("/:id", user.FetchUser)
+	}
 }
+
