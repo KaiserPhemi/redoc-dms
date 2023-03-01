@@ -27,7 +27,8 @@ func AddUser(c *gin.Context) {
 
 // fetch a single user
 func FetchUser(c *gin.Context) {
-	userId, err := strconv.ParseUint(c.Query("id"), 10, 32)
+	fmt.Println("the id", c.Param("id"))
+	userId, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -36,14 +36,14 @@ func FetchAllUsers() []User {
 // fetch a user by Id
 func FetchUserById(Id uint64) (*User, *gorm.DB) {
 	var getUser User
-	db := db.Where("ID?", Id).Find(&getUser)
+	db := db.Where("ID", Id).Limit(1).Find(&getUser)
 	return &getUser, db
 }
 
 // deletes a user by Id
 func DeleteUser(Id uint64) User {
 	var user User
-	db.Where("ID?", Id).Delete(user)
+	db.Where("ID", Id).Delete(user)
 	return user
 }
 

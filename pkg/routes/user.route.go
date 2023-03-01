@@ -13,7 +13,7 @@ func userRoutes(superRoute *gin.RouterGroup){
 		usersRouter.GET("/", user.FetchAllUsers)
 		usersRouter.POST("/", user.AddUser)
 		usersRouter.DELETE("/:id", user.DeleteUser)
-		usersRouter.PUT("/:id", user.FetchUser)
+		usersRouter.GET("/:id", user.FetchUser)
 	}
 }
 
