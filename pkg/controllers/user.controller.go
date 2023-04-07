@@ -2,62 +2,51 @@ package user
 
 // imports
 import (
-	"fmt"
-	"net/http"
 	"strconv"
 
 	"github.com/KaiserPhemi/redoc-dms/pkg/models"
-	"github.com/gin-gonic/gin"
+	util "github.com/KaiserPhemi/redoc-dms/pkg/utils"
+	"github.com/gofiber/fiber/v2"
 )
 
-// add a new user
-func AddUser(c *gin.Context) {
+func AddUser(c *fiber.Ctx) error {
 	newUser := models.User{}
-	if err := c.BindJSON(&newUser); err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
-		return
+	if err := c.JSON(&newUser); err != nil {
+		return c.Status(fiber.ErrBadGateway.Code).Send(nil)
 	}
-	added := newUser.AddUser()
-	c.IndentedJSON(http.StatusCreated, gin.H{
-		"message": "User created successfully.",
-		"user":    added,
+	createdUser := newUser.AddUser()
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"Message": "User created successfully.",
+		"User":    createdUser,
 	})
-
 }
 
 // fetch a single user
-func FetchUser(c *gin.Context) {
-	fmt.Println("the id", c.Param("id"))
-	userId, err := strconv.ParseUint(c.Param("id"), 10, 32)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+func FetchUser(c *fiber.Ctx) error {
+	userId, err := strconv.ParseUint(c.Params("id"), 10, 32)
+	util.HandleError(err)
 	user, _ := models.FetchUserById(userId)
-	c.IndentedJSON(http.StatusOK, gin.H{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User details fetched.",
 		"user":    user,
 	})
 }
 
 // fetch all users
-func FetchAllUsers(c *gin.Context) {
+func FetchAllUsers(c *fiber.Ctx) error {
 	allUsers := models.FetchAllUsers()
-	c.IndentedJSON(http.StatusOK, gin.H{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "All users fetched.",
 		"users":   allUsers,
 	})
 }
 
 // delete a user
-func DeleteUser(c *gin.Context) {
-	userId, err := strconv.ParseUint(c.Query("id"), 10, 32)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+func DeleteUser(c *fiber.Ctx) error {
+	userId, err := strconv.ParseUint(c.Params("id"), 10, 32)
+	util.HandleError(err)
 	deletedUser := models.DeleteUser(userId)
-	c.IndentedJSON(http.StatusOK, gin.H{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User details deleted.",
 		"user":    deletedUser,
 	})

@@ -3,17 +3,17 @@ package routes
 // imports
 import (
 	user "github.com/KaiserPhemi/redoc-dms/pkg/controllers"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
 // users routes
-func userRoutes(superRoute *gin.RouterGroup){
+func userRoutes(superRoute *fiber.Group){
 	usersRouter := superRoute.Group("/users")
 	{
-		usersRouter.GET("/", user.FetchAllUsers)
-		usersRouter.POST("/", user.AddUser)
-		usersRouter.DELETE("/:id", user.DeleteUser)
-		usersRouter.GET("/:id", user.FetchUser)
+		usersRouter.Get("/", user.FetchAllUsers)
+		usersRouter.Post("/", user.AddUser)
+		usersRouter.Delete("/:id", user.DeleteUser)
+		usersRouter.Get("/:id", user.FetchUser)
 	}
 }
 

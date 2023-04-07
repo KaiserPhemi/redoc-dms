@@ -2,10 +2,10 @@ package routes
 
 // imports
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
 // add all routes
-func AddRoutes(superRoute *gin.RouterGroup) {
+func AddRoutes(superRoute *fiber.Group) {
 	userRoutes(superRoute)
 }

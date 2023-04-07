@@ -1,15 +1,11 @@
 package main
 
-// imports
 import (
-	"github.com/KaiserPhemi/redoc-dms/pkg/routes"
-	"github.com/gin-gonic/gin"
+	fiber "github.com/gofiber/fiber/v2"
 )
 
-// main function
 func main() {
-	app := gin.New()
-	router := app.Group("/api/v1")
-	routes.AddRoutes(router)
-	app.Run(":7777")
+	app := fiber.New()
+	Api := app.Group("/api/v1")
+	app.Listen(":7777")
 }

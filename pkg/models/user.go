@@ -36,7 +36,7 @@ func FetchAllUsers() []User {
 // fetch a user by Id
 func FetchUserById(Id uint64) (*User, *gorm.DB) {
 	var getUser User
-	db := db.Where("ID", Id).Limit(1).Find(&getUser)
+	db := db.First(&getUser, Id)
 	return &getUser, db
 }
 
